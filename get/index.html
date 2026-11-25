@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Get Sync Camera</title>
+  <script>
+    (function () {
+      var appStore = 'https://apps.apple.com/app/id6834081876';
+      var googlePlay = 'https://play.google.com/store/apps/details?id=com.edwardt.synccamera';
+      var from = new URLSearchParams(location.search).get('from');
+      if (from === 'qr' || from === 'share') {
+        googlePlay += '&utm_source=sync_camera_app&utm_campaign=' + from;
+      }
+      var agent = navigator.userAgent;
+      // iPadOS introduces itself as a Mac; only an iPad has touch points.
+      var apple = /iPhone|iPad/.test(agent) ||
+          (/Macintosh/.test(agent) && navigator.maxTouchPoints > 1);
+      var store = apple ? appStore : /Android/.test(agent) ? googlePlay : null;
+      if (store) location.replace(store);
+      document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('google-play').href = googlePlay;
+        // A phone needs the links only if it stays here or comes back.
+        setTimeout(function () {
+          document.getElementById('stores').hidden = false;
+        }, store ? 2000 : 0);
+      });
+    })();
+  </script>
+  <link rel="stylesheet" href="../privacy.css">
+</head>
+<body>
+<main>
+  <header><p class="brand">SYNC CAMERA</p><h1>Get Sync Camera</h1></header>
+  <div id="stores" hidden>
+    <p><a href="https://apps.apple.com/app/id6834081876">App Store</a> — iPhone and iPad</p>
+    <p><a id="google-play" href="https://play.google.com/store/apps/details?id=com.edwardt.synccamera">Google Play</a> — Android</p>
+  </div>
+  <noscript>
+    <p><a href="https://apps.apple.com/app/id6834081876">App Store</a> — iPhone and iPad</p>
+    <p><a href="https://play.google.com/store/apps/details?id=com.edwardt.synccamera">Google Play</a> — Android</p>
+  </noscript>
+</main>
+</body>
+</html>
